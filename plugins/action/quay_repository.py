@@ -8,10 +8,10 @@ from ansible_collections.epfl_si.actions.plugins.module_utils.ansible_api import
 from ansible_collections.epfl_si.quay.plugins.module_utils.quay_actions import QuayActionMixin, returns_none_on_404
 
 class ActionModule (ActionBase, QuayActionMixin):
-    """Download a Kubeconfig file from the rancher back-end.
+    """Set up a or delete a Quay repository.
 
     See operation details and Ansible-level documentation in
-    ../modules/quay_mirror.py which only exists for documentation
+    ../modules/quay_repository.py which only exists for documentation
     purposes.
     """
     @AnsibleActions.run_method
