@@ -9,12 +9,24 @@ version_added: 0.3.0
 
 EXAMPLES = '''
 
-# 
-- set_fact:
-    _quay_puller_token: >-
-      {{ lookup("epfl_si.quay.robot_account", quay_organization, quay_puller_robot_account_name,
-                token=admin_token)["token"]
-      }}
+- name: "`Secret/my-puller-robot`"
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: my-puller-robot
+        namespace: my-namespace
+      type: kubernetes.io/dockerconfigjson
+      stringData:
+        .dockerconfigjson: >-
+          {{ lookup("epfl_si.quay.robot_account", my_organization, my_robot_account_name,
+                                                  token=_my_token)
+          | epfl_si.quay.format_docker_config_json | string }}
+  vars:
+    _my_token: ...
+
 '''
 
 import requests
@@ -36,5 +48,11 @@ class LookupModule (LookupBase):
             headers=dict(Authorization=f"bearer {token}"))
         response.raise_for_status()
         
-        return [robot for robot in response.json()["robots"]
+        ret = [robot for robot in response.json()["robots"]
                 if robot["name"] == robot_account_name]
+
+        # For the benefit of ../filter/format_docker_config_json.py (or for any other purpose):
+        for robot in ret:
+            robot["quay_hostname"] = hostname
+
+        return ret
