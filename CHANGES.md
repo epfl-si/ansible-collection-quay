@@ -1,3 +1,7 @@
+# Version 0.3.0
+
+- Introduce the `robot_account` lookup plugin
+
 # Version 0.2.0
 
 - Introduce the `robot_account_permission` task
