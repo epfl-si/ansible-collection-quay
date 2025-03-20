@@ -1,3 +1,7 @@
+# Version 0.4.0
+
+- Introduce the `format_docker_config_json` filter
+
 # Version 0.3.0
 
 - Introduce the `robot_account` lookup plugin
