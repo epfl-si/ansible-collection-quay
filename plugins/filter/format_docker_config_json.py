@@ -4,8 +4,21 @@ DOCUMENTATION = '''
 module: format_docker_config_json
 short_description: Turn a robot account structure into a C(.dockerconfigjson) fragment
 description:
-- This filter massages the return value of C(epfl_si.quay.robot_account) into a C(.dockerconfigjson) fragment
-  suitable for putting in a Kubernetes Secret.
+- This filter creates a C(.dockerconfigjson) fragment suitable for putting in a Kubernetes Secret
+  of `type: kubernetes.io/dockerconfig.json`.
+
+- The filter takes a dict as input, with the following fields (which
+  are the same that the C(epfl_si.quay.robot_account) lookup plugin
+  returns):
+
+- C(quay_hostname)
+- The fully-qualified domain name (not URL) of the Quay server
+
+- C(name)
+- The username of the robot account in Quay, e.g. C(myrepository+somerobot)
+
+- C(token)
+- The robot account's bearer token, as can be seen in the Quay UI
 
 version_added: 0.4.0
 '''
@@ -33,10 +46,6 @@ EXAMPLES = '''
 '''
 
 class FilterModule(object):
-    '''
-    Parse a string of the form `foo.bar/myimage:mytag`
-    '''
-
     def filters(self):
         return {
             'format_docker_config_json': self.format_docker_config_json
