@@ -1,3 +1,7 @@
+# Version 0.5.0
+
+- Tolerate `mirror.tags` being a single string, rather than a list
+
 # Version 0.4.0
 
 - Introduce the `format_docker_config_json` filter

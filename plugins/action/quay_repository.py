@@ -117,6 +117,10 @@ class ActionModule (ActionBase, QuayActionMixin):
             self.failed(f"POST {change_visibility_uri}", f"failed with status {response.status_code}")
 
     def maybe_setup_mirror (self, mirror_desired, mirror_actual):
+        desired_tags = mirror_desired["tags"]
+        if not isinstance(desired_tags, list):
+            desired_tags = [desired_tags]
+
         # https://docs.redhat.com/en/documentation/red_hat_quay/3/html-single/red_hat_quay_api_guide/index#quay-mirror-api
         desired_postdata = dict(
                 is_enabled=True,
@@ -126,7 +130,7 @@ class ActionModule (ActionBase, QuayActionMixin):
                 sync_start_date=mirror_desired.get("sync_start_date", None),
                 root_rule=dict(
                     rule_kind="tag_glob_csv",
-                    rule_value=mirror_desired["tags"]))
+                    rule_value=desired_tags))
 
         if desired_postdata["sync_interval"] is None:
             desired_postdata["sync_interval"] = (
@@ -142,7 +146,7 @@ class ActionModule (ActionBase, QuayActionMixin):
              and (mirror_actual["root_rule"]["rule_kind"] == "tag_glob_csv") ):
             # Merge new tags with old ones
             desired_postdata["root_rule"]["rule_value"].extend(
-                t for t in mirror_desired["tags"]
+                t for t in desired_tags
                 if t not in desired_postdata["root_rule"]["rule_value"])
 
         def is_substruct(a, b):
