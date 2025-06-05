@@ -1,3 +1,8 @@
+# Version 0.6.0
+
+- Better error messages in case Kubernetes rejects our changes
+- Update `quay_repository` state (using an HTTP PUT request)
+
 # Version 0.5.0
 
 - Tolerate `mirror.tags` being a single string, rather than a list
