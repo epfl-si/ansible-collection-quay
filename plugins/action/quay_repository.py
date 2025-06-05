@@ -116,13 +116,13 @@ class ActionModule (ActionBase, QuayActionMixin):
         else:
             self.failed(f"POST {change_visibility_uri}", f"failed with status {response.status_code}")
 
-    def maybe_setup_mirror (self, mirror_desired, mirror_actual):
+    def maybe_setup_mirror (self, mirror_desired, mirror_current):
         desired_tags = mirror_desired["tags"]
         if not isinstance(desired_tags, list):
             desired_tags = [desired_tags]
 
         # https://docs.redhat.com/en/documentation/red_hat_quay/3/html-single/red_hat_quay_api_guide/index#quay-mirror-api
-        desired_postdata = dict(
+        desired_data = dict(
                 is_enabled=True,
                 external_reference=mirror_desired["from"],
                 robot_username=mirror_desired["robot_account"],
@@ -132,22 +132,22 @@ class ActionModule (ActionBase, QuayActionMixin):
                     rule_kind="tag_glob_csv",
                     rule_value=desired_tags))
 
-        if desired_postdata["sync_interval"] is None:
-            desired_postdata["sync_interval"] = (
-                mirror_actual["sync_interval"] if mirror_actual is not None
+        if desired_data["sync_interval"] is None:
+            desired_data["sync_interval"] = (
+                mirror_current["sync_interval"] if mirror_current is not None
                 else 3600)
 
-        if desired_postdata["sync_start_date"] is None:
-            desired_postdata["sync_start_date"] = (
-                mirror_actual["sync_start_date"] if mirror_actual is not None
+        if desired_data["sync_start_date"] is None:
+            desired_data["sync_start_date"] = (
+                mirror_current["sync_start_date"] if mirror_current is not None
                 else datetime.datetime.now(datetime.UTC).strftime('%Y-%m-%dT%H:%M:%SZ'))
 
-        if ( (mirror_actual is not None)
-             and (mirror_actual["root_rule"]["rule_kind"] == "tag_glob_csv") ):
+        if ( (mirror_current is not None)
+             and (mirror_current["root_rule"]["rule_kind"] == "tag_glob_csv") ):
             # Merge new tags with old ones
-            desired_postdata["root_rule"]["rule_value"].extend(
+            desired_data["root_rule"]["rule_value"].extend(
                 t for t in desired_tags
-                if t not in desired_postdata["root_rule"]["rule_value"])
+                if t not in desired_data["root_rule"]["rule_value"])
 
         def is_substruct(a, b):
             if type(a) == AnsibleUnicode:
@@ -173,12 +173,12 @@ class ActionModule (ActionBase, QuayActionMixin):
             else:
                 return a == b
 
-        if is_substruct(desired_postdata, mirror_actual):
+        if is_substruct(desired_data, mirror_current):
                 return  # Ansible green
 
         response = self.quay_request.post(
             self.api_v1_mirror_url,
-            desired_postdata)
+            desired_data)
         if response.status_code == 201:
             self.changed("set mirroring information")
         else:
