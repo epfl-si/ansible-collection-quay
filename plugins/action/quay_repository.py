@@ -176,10 +176,19 @@ class ActionModule (ActionBase, QuayActionMixin):
         if is_substruct(desired_data, mirror_current):
                 return  # Ansible green
 
-        response = self.quay_request.post(
-            self.api_v1_mirror_url,
-            desired_data)
-        if response.status_code == 201:
-            self.changed("set mirroring information")
+        if mirror_current is None:
+            response = self.quay_request.post(
+                self.api_v1_mirror_url,
+                desired_data)
+            if response.status_code == 201:
+                self.changed("set mirroring information")
+            else:
+                self.failed(f"POST {self.api_v1_mirror_url}", f"failed with status {response.status_code}")
         else:
-            self.failed(f"POST {self.api_v1_mirror_url}", f"failed with status {response.status_code}")
+            response = self.quay_request.put(
+                self.api_v1_mirror_url,
+                desired_data)
+            if response.status_code == 201:
+                self.changed("updated mirroring information")
+            else:
+                self.failed(f"PUT {self.api_v1_mirror_url}", f"failed with status {response.status_code}")
