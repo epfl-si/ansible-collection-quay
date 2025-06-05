@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import functools
 
 import requests
+from requests.exceptions import HTTPError
 
 from ansible_collections.epfl_si.actions.plugins.module_utils.ansible_api import AnsibleResults
 
@@ -42,7 +43,7 @@ class QuayActionMixin(ABC):
                     f"{url_base}{endpoint}",
                     json=json, headers=authify(headers))
 
-                response.raise_for_status()
+                cls._raise_for_status(response)
                 return response
 
             @classmethod
@@ -60,6 +61,36 @@ class QuayActionMixin(ABC):
             @classmethod
             def delete (cls, endpoint, json=None, headers={}):
                 return cls.request("DELETE", endpoint, json, headers)
+
+            @classmethod
+            def _raise_for_status (cls, response):
+                """Copied n' modified from `requests`' own implementation, so that
+                the exception message contains the Kubernetes error."""
+
+                def textify (buf):
+                    if isinstance(buf, bytes):
+                        try:
+                            return buf.decode("utf-8")
+                        except UnicodeDecodeError:
+                            return buf.decode("iso-8859-1")
+                    else:
+                        return buf
+
+                reason = f"{ textify(response.reason) } - { textify(response.text) }"
+
+                http_error_msg = ""
+                if 400 <= response.status_code < 500:
+                    http_error_msg = (
+                        f"{response.status_code} Client Error: {reason} for url: {response.url}"
+                    )
+
+                elif 500 <= response.status_code < 600:
+                    http_error_msg = (
+                        f"{response.status_code} Server Error: {reason} for url: {response.url}"
+                    )
+
+                if http_error_msg:
+                    raise HTTPError(http_error_msg, response=response)
 
         return QuayRequests
 
