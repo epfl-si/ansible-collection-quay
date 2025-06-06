@@ -4,10 +4,12 @@ DOCUMENTATION = '''
 module: format_docker_config_json
 short_description: Turn a robot account structure into a C(.dockerconfigjson) fragment
 description:
-- This filter creates a C(.dockerconfigjson) fragment suitable for putting in a Kubernetes Secret
-  of `type: kubernetes.io/dockerconfig.json`.
+- >-
+  This filter creates a C(.dockerconfigjson) fragment suitable for putting in a
+  Kubernetes Secret of `type: kubernetes.io/dockerconfig.json`.
 
-- The filter takes a dict as input, with the following fields (which
+- >-
+  The filter takes a dict as input, with the following fields (which
   are the same that the C(epfl_si.quay.robot_account) lookup plugin
   returns):
 
