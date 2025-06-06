@@ -1,3 +1,7 @@
+# Version 0.6.3
+
+- Fix more permayellows in `epfl_si.quay.quay_repository`
+
 # Version 0.6.2
 
 - Fix `module 'datetime' has no attribute 'UTC'` on Python 3.10.x
