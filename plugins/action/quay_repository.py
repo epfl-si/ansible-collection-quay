@@ -141,7 +141,7 @@ class ActionModule (ActionBase, QuayActionMixin):
         if desired_data["sync_start_date"] is None:
             desired_data["sync_start_date"] = (
                 mirror_current["sync_start_date"] if mirror_current is not None
-                else datetime.datetime.now(datetime.UTC).strftime('%Y-%m-%dT%H:%M:%SZ'))
+                else datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))
 
         if ( (mirror_current is not None)
              and (mirror_current["root_rule"]["rule_kind"] == "tag_glob_csv") ):
