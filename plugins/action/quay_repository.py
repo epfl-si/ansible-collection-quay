@@ -5,6 +5,7 @@ from ansible.parsing.yaml.objects import AnsibleUnicode
 
 from ansible_collections.epfl_si.actions.plugins.module_utils.subactions import AnsibleActions
 from ansible_collections.epfl_si.actions.plugins.module_utils.compare import is_substruct
+from ansible_collections.epfl_si.actions.plugins.module_utils.strings import is_same_string
 from ansible_collections.epfl_si.actions.plugins.module_utils.ansible_api import AnsibleResults
 from ansible_collections.epfl_si.quay.plugins.module_utils.quay_actions import QuayActionMixin, returns_none_on_404
 
@@ -44,12 +45,14 @@ class ActionModule (ActionBase, QuayActionMixin):
             description = self.args["description"]
             visibility = self.args.get("visibility", "private")
             if exists:
-                if exists["description"] != description:
+                if not is_same_string(exists["description"],
+                                      description):
                     self.do_update_description(description)
                 if "failed" in self.result:
                     return
 
-                if exists["is_public"] != (visibility == "public"):
+                if exists["is_public"] != (is_same_string(
+                        visibility, "public")):
                     self.do_update_visibility(visibility)
             else:
                 self.do_create(description, visibility)
