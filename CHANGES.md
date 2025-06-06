@@ -1,3 +1,7 @@
+# Version 0.6.1
+
+- Fix a permayellow involving `epfl_si.quay.quay_repository` and mirroring
+
 # Version 0.6.0
 
 - Better error messages in case Kubernetes rejects our changes
