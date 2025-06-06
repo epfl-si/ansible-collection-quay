@@ -1,3 +1,7 @@
+# Version 0.6.2
+
+- Fix `module 'datetime' has no attribute 'UTC'` on Python 3.10.x
+
 # Version 0.6.1
 
 - Fix a permayellow involving `epfl_si.quay.quay_repository` and mirroring
