@@ -4,6 +4,7 @@ from ansible.plugins.action import ActionBase
 from ansible.parsing.yaml.objects import AnsibleUnicode
 
 from ansible_collections.epfl_si.actions.plugins.module_utils.subactions import AnsibleActions
+from ansible_collections.epfl_si.actions.plugins.module_utils.compare import is_substruct
 from ansible_collections.epfl_si.actions.plugins.module_utils.ansible_api import AnsibleResults
 from ansible_collections.epfl_si.quay.plugins.module_utils.quay_actions import QuayActionMixin, returns_none_on_404
 
@@ -149,32 +150,8 @@ class ActionModule (ActionBase, QuayActionMixin):
                 t for t in desired_tags
                 if t not in desired_data["root_rule"]["rule_value"])
 
-        def is_substruct(a, b):
-            if type(a) == AnsibleUnicode:
-                return is_substruct(str(a), b)
-            elif type(b) == AnsibleUnicode:
-                return is_substruct(a, str(b))
-            elif type(a) != type(b):
-                return False
-            elif type(a) == dict:
-                for k in a.keys():
-                    if k not in b:
-                        return False
-                    if not is_substruct(a[k], b[k]):
-                        return False
-                return True
-            elif type(a) == list:
-                if len(a) != len(b):
-                    return False
-                for (a_elem, b_elem) in zip(a, b):
-                    if not is_substruct(a_elem, b_elem):
-                        return False
-                return True
-            else:
-                return a == b
-
         if is_substruct(desired_data, mirror_current):
-                return  # Ansible green
+            return  # Ansible green
 
         if mirror_current is None:
             response = self.quay_request.post(

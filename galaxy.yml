@@ -17,7 +17,7 @@ tags:
 - quay
 
 dependencies:
-  epfl_si.actions: ">=2.2.0"
+  epfl_si.actions: ">=2.4.0"
 
 repository: https://github.com/epfl-si/ansible-collection-quay
 
