@@ -112,7 +112,7 @@ class ActionModule (ActionBase, QuayActionMixin):
     def do_update_visibility (self, visibility):
         # https://docs.redhat.com/en/documentation/red_hat_quay/3/html-single/red_hat_quay_api_guide/index#changerepovisibility
         change_visibility_uri = f"{self.api_v1_url}/changevisibility"
-        response = self.quay_request.POST(
+        response = self.quay_request.post(
             change_visibility_uri,
             dict(visibility=visibility))
         if response.status_code == 200:
