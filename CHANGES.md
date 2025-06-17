@@ -1,6 +1,10 @@
-# Version 0.6.4
+# Version 0.6.5
 
 - Fix a few bugs related to mirroring
+
+# Version 0.6.4
+
+- Same as 0.6.5 except the bugs weren't fixed for real 🤷‍♂️
 
 # Version 0.6.3
 
