@@ -144,7 +144,7 @@ class ActionModule (ActionBase, QuayActionMixin):
 
         if desired_data["sync_start_date"] is None:
             desired_data["sync_start_date"] = (
-                re.sub("[.]\d+Z$", "", mirror_current["sync_start_date"])
+                re.sub(r"[.]\d+Z$", "Z", mirror_current["sync_start_date"])
                 if mirror_current is not None
                 else datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))
 
