@@ -1,4 +1,5 @@
 import datetime
+import re
 
 from ansible.plugins.action import ActionBase
 from ansible.parsing.yaml.objects import AnsibleUnicode
@@ -143,7 +144,8 @@ class ActionModule (ActionBase, QuayActionMixin):
 
         if desired_data["sync_start_date"] is None:
             desired_data["sync_start_date"] = (
-                mirror_current["sync_start_date"] if mirror_current is not None
+                re.sub("[.]\d+Z$", "", mirror_current["sync_start_date"])
+                if mirror_current is not None
                 else datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'))
 
         if ( (mirror_current is not None)
