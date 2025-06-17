@@ -1,3 +1,7 @@
+# Version 0.6.4
+
+- Fix a few bugs related to mirroring
+
 # Version 0.6.3
 
 - Fix more permayellows in `epfl_si.quay.quay_repository`
