@@ -24,6 +24,7 @@ class ActionModule (ActionBase, QuayActionMixin):
 
         self.organization = args['organization']
         self.name = args['name']
+        self.skopeo_timeout_interval = args.get('timeout_seconds', 600)
 
         self.result = AnsibleResults.empty()
         self.perform_changes(args.get('state', 'present'))
@@ -93,6 +94,7 @@ class ActionModule (ActionBase, QuayActionMixin):
                 namespace=self.organization,
                 repository=self.name,
                 description=description,
+                skopeo_timeout_interval=self.skopeo_timeout_interval,
                 visibility=visibility))
 
         if response.status_code == 201:

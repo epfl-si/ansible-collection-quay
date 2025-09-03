@@ -44,6 +44,9 @@ options:
     type: str
     required: true
     description: Either "public" or "private"
+  timeout_seconds:
+    type: int
+    description: The timeout for remote (“Skopeo”) queries that Quay will perform to initialize and maintain the mirror.
   mirror:
     type: complex
     description: The mirroring configuration to set up for this repository
