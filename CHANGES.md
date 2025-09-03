@@ -1,3 +1,12 @@
+# Version 0.7.1
+
+- Documentation touchup
+- Support Quay version 3.15.1 (`skopeo_timeout_interval` parameter for creating repositories)
+
+# ~~Version 0.7.0~~
+
+... is buggy; do not use it.
+
 # Version 0.6.5
 
 - Fix a few bugs related to mirroring
