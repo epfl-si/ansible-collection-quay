@@ -23,6 +23,12 @@ This collection provides action plugins to manipulate the Quay API.
 - name: Playbook to manage robot account and repositories in Quay
   hosts: localhost
   gather_facts: false
+  vars:
+    ansible_quay_hostname: quay.io
+
+    ansible_quay_bearer_token: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      redacted
   tasks:
 
     - name: Manage Robot Account permissions
