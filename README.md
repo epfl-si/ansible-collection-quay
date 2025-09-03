@@ -9,11 +9,13 @@ This collection provides action plugins to manipulate the Quay API.
 1. Enter a name, for instance 'ansible' and continue
 1. Select the application and click Generate Token
 1. Check the following settings:
-  - [x] Administer Organization
-  - [x] Administer Repositories
-  - [x] Create Repositories
-  - [x] View all visible repositories
-  - [x] Read/Write to any accessible repositories
+
+    - [x] Administer Organization
+    - [x] Administer Repositories
+    - [x] Create Repositories
+    - [x] View all visible repositories
+    - [x] Read/Write to any accessible repositories
+
 1. Save the token in the variable 'ansible_quay_bearer_token'
 
 ## Playbook example
