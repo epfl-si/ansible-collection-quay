@@ -1,3 +1,7 @@
+# Version 0.8.0
+
+- `epfl_si.quay.repository`: ability to force mirror resync (`.mirror.sync_now`)
+
 # Version 0.7.1
 
 - Documentation touchup
