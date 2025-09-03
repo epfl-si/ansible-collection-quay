@@ -24,7 +24,6 @@ class ActionModule (ActionBase, QuayActionMixin):
 
         self.organization = args['organization']
         self.name = args['name']
-        self.skopeo_timeout_interval = args.get('timeout_seconds', 600)
 
         self.result = AnsibleResults.empty()
         self.perform_changes(args.get('state', 'present'))
@@ -134,7 +133,7 @@ class ActionModule (ActionBase, QuayActionMixin):
                 robot_username=mirror_desired["robot_account"],
                 sync_interval=mirror_desired.get("sync_interval", None),
                 sync_start_date=mirror_desired.get("sync_start_date", None),
-                skopeo_timeout_interval=self.skopeo_timeout_interval,
+                skopeo_timeout_interval=mirror_desired.get("timeout_seconds", 600),
                 root_rule=dict(
                     rule_kind="tag_glob_csv",
                     rule_value=desired_tags))
