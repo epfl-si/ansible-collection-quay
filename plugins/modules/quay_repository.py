@@ -32,10 +32,6 @@ options:
     type: str
     required: true
     description: The Quay namespace (first path component of the images' URL) in which the repository lives
-  repository:
-    type: str
-    required: true
-    description: The Quay namespace (first path component of the images' URI path) that the repository lives in
   name:
     type: str
     required: true
