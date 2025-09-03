@@ -64,6 +64,8 @@ class ActionModule (ActionBase, QuayActionMixin):
             mirror_desired = self.args.get('mirror')
             if mirror_desired is not None:
                 self.maybe_setup_mirror(mirror_desired, self.get_mirror_info())
+                if mirror_desired.get("sync_now"):
+                    self.do_sync_now()
 
     @returns_none_on_404
     def get_repository_data (self):
@@ -175,3 +177,11 @@ class ActionModule (ActionBase, QuayActionMixin):
                 self.changed("updated mirroring information")
             else:
                 self.failed(f"PUT {self.api_v1_mirror_url}", f"failed with status {response.status_code}")
+
+    def do_sync_now (self):
+        sync_now_uri = self.api_v1_mirror_url + "/sync-now"
+        response = self.quay_request.post(sync_now_uri)
+        if response.status_code >= 200 and response.status_code < 300:
+            self.changed(f"Sync OK, result code: {response.status_code}")
+        else:
+            self.failed(f"Bad status {response.status_code} for {sync_now_uri}")

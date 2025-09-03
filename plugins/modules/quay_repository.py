@@ -68,4 +68,8 @@ options:
         type: int
         default: 600
         description: The timeout for remote (“Skopeo”) queries that Quay will perform to initialize and maintain the mirror.
+      sync_now:
+        type: bool
+        default: false
+        description: Force the mirror to update now.
 """
