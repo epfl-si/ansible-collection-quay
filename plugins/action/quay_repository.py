@@ -158,6 +158,12 @@ class ActionModule (ActionBase, QuayActionMixin):
                 t for t in desired_tags
                 if t not in desired_data["root_rule"]["rule_value"])
 
+        undesired_tags = mirror_desired.get("remove_tags", [])
+        if not isinstance(desired_tags, list):
+            undesired_tags = [undesired_tags]
+        desired_tags = [ t for t in desired_tags
+                         if t not in undesired_tags ]
+
         if is_substruct(desired_data, mirror_current):
             return  # Ansible green
 

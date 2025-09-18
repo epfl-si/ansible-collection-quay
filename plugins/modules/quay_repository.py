@@ -56,6 +56,10 @@ options:
         type: list
         required: true
         description: The list of tags to mirror, as strings
+      remove_tags:
+        type: list
+        required: true
+        description: The list of tags to stop mirroring, as strings
       sync_interval:
         type: str
         default: 3600
