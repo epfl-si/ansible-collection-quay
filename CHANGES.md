@@ -1,3 +1,7 @@
+# Version 0.9.0
+
+- `epfl_si.quay.repository`: new `mirror.remove_tags` sub-option
+
 # Version 0.8.0
 
 - `epfl_si.quay.repository`: ability to force mirror resync (`.mirror.sync_now`)
