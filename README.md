@@ -48,7 +48,9 @@ This collection provides action plugins to manipulate the Quay API.
         visibility: public
         mirror:
           from: ghcr.io/foo/bar
-          tags: v17,v18
+          tags:
+            - v17
+            - v18
           sync_interval: 604800  # 1 week
           robot_account: myrobot
           sync_now: true
