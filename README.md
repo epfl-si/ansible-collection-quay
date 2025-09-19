@@ -51,6 +51,8 @@ This collection provides action plugins to manipulate the Quay API.
           tags:
             - v17
             - v18
+          remove_tags:
+            - v16
           sync_interval: 604800  # 1 week
           robot_account: myrobot
           sync_now: true
