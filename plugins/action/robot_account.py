@@ -49,7 +49,12 @@ class ActionModule (ActionBase, QuayActionMixin):
     @returns_none_on_404
     def get (self):
         # https://docs.redhat.com/en/documentation/red_hat_quay/3/html-single/red_hat_quay_api_guide/index#robot-account-permissions-api
-        return self.quay_request.get(self.api_v1_url).json()
+        try:
+            return self.quay_request.get(self.api_v1_url).json()
+        except requests.HTTPError as e:
+            if (e.response.status_code == 400 and
+                e.response.json()["message"] == 'Could not find robot with specified username'):
+                return None
 
     @property
     def desired_permission (self):
