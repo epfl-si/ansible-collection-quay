@@ -1,3 +1,13 @@
+# Version 0.10.3
+
+- New action plugin `epfl_si.quay.robot_account`
+
+⚠ Versions 0.10.0 through 0.10.2 were broken in various ways; please don't use them.
+
+# Version 0.9.0
+
+- `epfl_si.quay.repository`: new `mirror.remove_tags` sub-option
+
 # Version 0.8.0
 
 - `epfl_si.quay.repository`: ability to force mirror resync (`.mirror.sync_now`)
