@@ -55,7 +55,7 @@ class QuayActionMixin(ABC):
                 return cls.request("POST", endpoint, json, headers)
 
             @classmethod
-            def put (cls, endpoint, json, headers={}):
+            def put (cls, endpoint, json=None, headers={}):
                 return cls.request("PUT", endpoint, json, headers)
 
             @classmethod
